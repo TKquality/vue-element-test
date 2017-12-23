@@ -1,17 +1,29 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <HelloWorld/>
+    <el-button @click="changeStatus()">ClickMe</el-button>
+    <div>
+      <transition name="el-zoom-in-center">
+        <img v-show="showStatus" src="./assets/logo.png">
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
 
 export default {
   name: 'app',
+  data() {
+    return {
+      showStatus: true,
+    }
+  },
   components: {
-    HelloWorld
+  },
+  methods: {
+    changeStatus: function () {
+      this.showStatus = !this.showStatus;
+    }
   }
 }
 </script>
