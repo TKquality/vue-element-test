@@ -13,4 +13,4 @@ yarn-error.log*
 *.njsproj
 *.sln
 
-/assets/private/
+/src/assets/private/
