@@ -1,53 +1,54 @@
 <template>
   <div id="app">
     <el-container>
-      <el-header id="titles">
-        <el-menu :unique-opened="true" mode="horizontal">
-          <el-menu-item index="index-item">Select Title</el-menu-item>
-          <el-submenu v-for="item in jsonData" :key="item.series" :index="item.series">
-            <template slot="title">
-              {{ item.series }}
-            </template>
-            <el-menu-item-group>
-              <el-menu-item class="header-entry" v-for="story in item.stories" :key="story.id" :index="story.id" @click="changeImgUrl(story.imgPath)">chapter{{ story.titleCount }}:{{ story.title }}</el-menu-item>
-            </el-menu-item-group>
-           </el-submenu>
-        </el-menu>
+      <el-header>
+        <span>Show eye catch images of</span>
+        <el-cascader id="selector" expand-trigger="hover" :options="items" v-model="selected"></el-cascader>
       </el-header>
       <el-main>
-        <el-button @click="changeStatus()">ClickMe</el-button>
-        <div>
-          <transition name="el-zoom-in-center">
-            <img v-show="showStatus" :src="imgUrl">
-          </transition>
+        <div v-if="selected.length>0">
+          <chapter v-for="chapter in selected[0].chapters" :key="chapter.id" v-bind:data="chapter"></chapter>
         </div>
+        <div v-else>No Series is selected</div>
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import titleList from './assets/private/witches/list-dev.json'
+import Chapter from './components/Chapter.vue'
+
+new Vue({
+  components: { Chapter },
+  template: '<chapter>',
+})
+
+const cascaderItems = [];
+for(let i = 0, numSeries = titleList.length; i < numSeries ; i++){
+
+  const item = {
+    value: titleList[i],
+    label: titleList[i].series,
+  }
+  cascaderItems.push(item);
+
+}
 
 export default {
   name: 'app',
   data() {
     return {
-      showStatus: true,
-      jsonData: titleList,
-      imgUrl: '/src/assets/logo.png',
+      items: cascaderItems,
+      selected: [],
     }
   },
   components: {
+    Chapter,
   },
   methods: {
-    changeStatus: function () {
-      this.showStatus = !this.showStatus;
-    },
-    changeImgUrl: function (url) {
-      this.imgUrl = url;
-    }
-  }
+  },
 }
 </script>
 
@@ -60,7 +61,10 @@ export default {
   color: #2c3e50;
   margin-top: 15px;
 }
-.aside-entry {
+#selector {
+  width: 300px;
+}
+.header-entry {
   font-size: 0.75rem;
   text-align: left;
 }
