@@ -1,18 +1,19 @@
 <template>
   <div id="app">
     <el-container>
-      <el-aside id="titles">
-        <el-menu :unique-opened="true">
+      <el-header id="titles">
+        <el-menu :unique-opened="true" mode="horizontal">
+          <el-menu-item index="index-item">Select Title</el-menu-item>
           <el-submenu v-for="item in jsonData" :key="item.series" :index="item.series">
             <template slot="title">
               {{ item.series }}
             </template>
             <el-menu-item-group>
-              <el-menu-item class="aside-entry" v-for="story in item.stories" :key="story.id" :index="story.id" @click="changeImgUrl(story.imgPath)">chapter{{ story.titleCount }}:{{ story.title }}</el-menu-item>
+              <el-menu-item class="header-entry" v-for="story in item.stories" :key="story.id" :index="story.id" @click="changeImgUrl(story.imgPath)">chapter{{ story.titleCount }}:{{ story.title }}</el-menu-item>
             </el-menu-item-group>
            </el-submenu>
         </el-menu>
-      </el-aside>
+      </el-header>
       <el-main>
         <el-button @click="changeStatus()">ClickMe</el-button>
         <div>
@@ -57,10 +58,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
-}
-#titles {
-  width: 300px;
+  margin-top: 15px;
 }
 .aside-entry {
   font-size: 0.75rem;
