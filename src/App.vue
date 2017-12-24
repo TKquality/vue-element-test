@@ -7,7 +7,7 @@
       </el-header>
       <el-main>
         <div v-if="selected.length>0">
-          <chapter v-for="chapter in selected[0].chapters" :key="chapter.id" v-bind:data="chapter"></chapter>
+          <chapter v-for="chapter in selected[0].chapters" :key="chapter.id" :info="chapter"></chapter>
         </div>
         <div v-else>No Series is selected</div>
       </el-main>
@@ -16,14 +16,14 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import titleList from './assets/private/witches/list-dev.json'
-import Chapter from './components/Chapter.vue'
+import Vue from 'vue';
+import titleList from './assets/private/witches/list-dev.json';
+import Chapter from './components/Chapter.vue';
 
 new Vue({
   components: { Chapter },
   template: '<chapter>',
-})
+});
 
 const cascaderItems = [];
 for(let i = 0, numSeries = titleList.length; i < numSeries ; i++){
@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
