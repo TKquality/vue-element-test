@@ -6,6 +6,7 @@
         <el-cascader id="selector" expand-trigger="hover" :options="items" v-model="selected"></el-cascader>
       </el-header>
       <el-main>
+        <modal></modal>
         <div v-if="selected.length>0">
           <chapter v-for="chapter in selected[0].chapters" :key="chapter.id" :info="chapter"></chapter>
         </div>
@@ -19,10 +20,17 @@
 import Vue from 'vue';
 import titleList from './assets/private/witches/list-dev.json';
 import Chapter from './components/Chapter.vue';
+import Modal from './components/Modal.vue';
+import EventBus from './EventBus.js';
 
 new Vue({
   components: { Chapter },
   template: '<chapter>',
+});
+
+new Vue({
+  components: { Modal },
+  template: '<modal>',
 });
 
 const cascaderItems = [];
@@ -46,8 +54,20 @@ export default {
   },
   components: {
     Chapter,
+    Modal,
   },
   methods: {
+  },
+  created() {
+    const self = this;
+    EventBus.$on('chapterSelected', function(chap) {
+      self.showModal = true;
+      EventBus.$emit('openModal', chap);
+      // console.log(chap);
+    });
+    EventBus.$on('closeModal', function() {
+      self.showModal = false;
+    });
   },
 }
 </script>

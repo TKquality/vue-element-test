@@ -1,11 +1,12 @@
 <template>
-	<div id="top" :style="topStyle" @mouseenter="changeBackColor" @mouseleave="resetBackColor">
-		<img :src="info.imgPath" @click="showInfo()">
+	<div id="chapter" :style="topStyle" @mouseenter="changeBackColor" @mouseleave="resetBackColor">
+		<img :src="info.thumbnailImg" @click="select()">
 		<span>Chapter:{{ info.chapterCount }}</span>
 	</div>
 </template>
 
 <script>
+	import EventBus from '../EventBus.js';
 	export default {
 		name:'chapter',
 		props: ['info'],
@@ -19,8 +20,8 @@
 			}
 		},
 		methods: {
-			showInfo: function () {
-      		console.log(this.info.title);
+			select: function () {
+      			EventBus.$emit('chapterSelected', this.info);
     		},
     		changeBackColor: function () {
     			this.topStyle.backgroundColor = 'aquamarine';
